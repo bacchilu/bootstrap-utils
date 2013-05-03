@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Bootstrap Alerts</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Le styles -->
+        <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <h1>Bootstrap Alerts</h1>
+
+            <p><button id="do" class="btn btn-primary">Do it!</button></p>
+
+            <div class="alert" id="alert" style="display: none;">
+                <button type="button" class="close">&times;</button><p></p>
+            </div>
+
+        </div> <!-- /container -->
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.js"></script>
+        <script src="besms-alert.js"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            var mittenteAlert = createAlert($("#alert"));
+
+            $("#do").click(function () {
+                mittenteAlert.success("Done!");
+            });
+
+        });
+
+        </script>
+
+    </body>
+</html>
