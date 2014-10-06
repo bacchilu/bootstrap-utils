@@ -2,7 +2,7 @@
 
 An easy encapsulation of [Bootstrap](http://getbootstrap.com) [Alert messages](http://getbootstrap.com/javascript/#alerts).
 
-A demo is [here](http://www.lucabacchi.it/apps/bootstrap-alert).
+A demo is [here](http://www.lucabacchi.it/apps/bootstrap-utils).
 
 ## Usage
 
@@ -21,7 +21,7 @@ The library closes every alert after 10 seconds. You can configure this behaviou
 
 If you set a timeout of *0*, you have to close the Alert by hand.
 
-For more complex examples se the [demo](http://www.lucabacchi.it/apps/bootstrap-alert) source code.
+For more complex examples se the [demo](http://www.lucabacchi.it/apps/bootstrap-utils) source code.
 
 ## License
 
