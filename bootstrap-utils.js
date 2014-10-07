@@ -84,7 +84,7 @@ var BootstrapDialog = function (title) {
     };
 
     var templates = {};
-    _.each($("#template,script"), function (element) {
+    _.each($("script.template"), function (element) {
         templates[$(element).data("id")] = _.template($(element).html());
     });
 
