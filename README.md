@@ -16,6 +16,8 @@ Using this patter I async load the *template file* via an ajax call as an extern
 
 *bUtils* is the object I can use to create the components I need.
 
+*bUtils* exposes two methods: *createAlert* and *createDialog*.
+
 ## Alerts
 
     var notifier = bUtils.createAlert({container: $("#container")});
@@ -29,7 +31,11 @@ The library closes every alert after 10 seconds. You can configure this behaviou
 
     var notifier = bUtils.createAlert({container: $("#container"), timeout: 5});
 
+The configuration object for *createAlert* takes two params: *container* (the default value is *$("body")*) and *timeout* (the default values is 10).
 If you set a timeout of *0*, you have to close the Alert by hand.
+
+*createAlert* return an object with methods: *success*, *info*, *warning*, *danger*.
+You can pass a jquery dom element as an argument to each method.
 
 ## Modals
 
@@ -40,6 +46,12 @@ If you set a timeout of *0*, you have to close the Alert by hand.
     d.addTextarea({placeholder: "Descrizione"});
     d.addDate({label: "Scadenza", placeholder: "Scadenza (facoltativo)"});
     d.show();
+
+*createDialog* returns an object with methods: *show*, *addDate*, *addTextarea*, *addValuta*, *addNumero*.
+
+*show* takes no arguments.
+
+The *add...* methods take a configuration object as an argument with params: *label*, *placeholder*, *value*. "" is the default param value.
 
 ## More Examples
 
