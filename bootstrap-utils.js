@@ -94,6 +94,10 @@ var BootstrapUtils = (function () {
 
         var t = getTemplate("modal");
         var jqDialog = $(t({"id": _.uniqueId("modal_"), "title": title}));
+        jqDialog.on("hidden.bs.modal", function (e) {
+            jqDialog.remove();
+        });
+
         $("body").prepend(jqDialog);
 
         return {
