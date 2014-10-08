@@ -97,6 +97,9 @@ var BootstrapUtils = (function () {
         jqDialog.on("hidden.bs.modal", function (e) {
             jqDialog.remove();
         });
+        jqDialog.find(".insert").on("click", function () {
+            jqDialog.modal("hide")
+        });
 
         $("body").prepend(jqDialog);
 
