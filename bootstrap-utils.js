@@ -105,16 +105,15 @@ var BootstrapUtils = (function () {
         jqDialog.on("hidden.bs.modal", function (e) {
             jqDialog.remove();
         });
+        var insert = function (data) {};
         jqDialog.find(".insert").on("click", function () {
-            jqDialog.modal("hide")
-
             var ret = {};
             _.each(jqDialog.find(".modal-body form").children(), function (element) {
                 var item = $(element).find(".form-control");
                 var id = idMapper[item.attr("id")];
                 ret[id] = item.val();
             });
-            console.log(ret);
+            insert(ret);
         });
 
         $("body").prepend(jqDialog);
@@ -132,8 +131,17 @@ var BootstrapUtils = (function () {
             addNumero: function (options) {
                 addWidget("number", options);
             },
+            setError: function (id, msg) {
+                console.log(msg);
+            },
             show: function () {
                 jqDialog.modal("show");
+            },
+            hide: function () {
+                jqDialog.modal("hide");
+            },
+            insert: function (fn) {
+                insert = fn;
             }
         };
     };
