@@ -132,7 +132,12 @@ var BootstrapUtils = (function () {
                 addWidget("number", options);
             },
             setError: function (id, msg) {
-                console.log(msg);
+                var nativeId = _.invert(idMapper)[id];
+                var w = $("#" + nativeId).closest("div.form-group");
+                w.addClass("has-error");
+                var label = w.find(".control-label");
+                label.html(msg);
+                label.show();
             },
             show: function () {
                 jqDialog.modal("show");
