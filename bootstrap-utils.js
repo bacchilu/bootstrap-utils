@@ -82,14 +82,22 @@ var BootstrapUtils = (function () {
             jqDialog.find(".modal-body form").append(jqItem);
         };
 
+        var idMapper = {};
         var addWidget = function (type, options) {
 
             var defaults = {label: "",  placeholder: "", value: ""};
             options = $.extend({}, defaults, options);
 
+            var id = _.uniqueId("modal_");
             var t = getTemplate(type);
-            var jqItem = $(t({"id": _.uniqueId("modal_"), "label": options.label, "placeholder": options.placeholder, "value": options.value}));
+            var jqItem = $(t({"id": id, "label": options.label, "placeholder": options.placeholder, "value": options.value}));
             append(jqItem);
+
+            var userId = options["id"];
+            if (userId === undefined)
+                idMapper[id] = id;
+            else
+                idMapper[id] = userId;
         };
 
         var t = getTemplate("modal");
@@ -99,6 +107,14 @@ var BootstrapUtils = (function () {
         });
         jqDialog.find(".insert").on("click", function () {
             jqDialog.modal("hide")
+
+            var ret = {};
+            _.each(jqDialog.find(".modal-body form").children(), function (element) {
+                var item = $(element).find(".form-control");
+                var id = idMapper[item.attr("id")];
+                ret[id] = item.val();
+            });
+            console.log(ret);
         });
 
         $("body").prepend(jqDialog);
