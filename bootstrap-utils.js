@@ -138,8 +138,16 @@ var BootstrapUtils = (function () {
                 var label = w.find(".control-label");
                 label.html(msg);
                 label.show();
+
+                var t;
+                clearTimeout(t);
+                t = setTimeout(function () {
+                    w.removeClass("has-error");
+                    label.html("");
+                    label.hide();
+                }, 10000);
             },
-            show: function () {
+            create: function () {
                 jqDialog.modal("show");
             },
             hide: function () {
