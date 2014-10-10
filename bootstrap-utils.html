@@ -62,3 +62,11 @@
         <small><label style="display: none;" class="control-label"></label></small>
     </div>
 </script>
+
+<script type="text/template" class="template" data-id="string">
+    <div class="form-group">
+        <% if (label) { %><label for="<%= id %>"><%= label %></label><% } %>
+        <input id="<%= id %>" class="form-control" type="text" placeholder="<%= placeholder %>" value="<%= value %>">
+        <small><label style="display: none;" class="control-label"></label></small>
+    </div>
+</script>

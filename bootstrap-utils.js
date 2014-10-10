@@ -131,6 +131,9 @@ var BootstrapUtils = (function () {
             addNumero: function (options) {
                 addWidget("number", options);
             },
+            addString: function (options) {
+                addWidget("string", options);
+            },
             setError: function (id, msg) {
                 var nativeId = _.invert(idMapper)[id];
                 var w = $("#" + nativeId).closest("div.form-group");
