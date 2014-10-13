@@ -100,6 +100,15 @@ var BootstrapUtils = (function () {
                 idMapper[id] = userId;
         };
 
+        var getWidgets = function () {
+            var ret = [];
+            var items = jqDialog.find(".modal-body form").children().find(".form-control");
+            _.each(items, function (element) {
+                ret.push($(element));
+            });
+            return ret;
+        };
+
         var t = getTemplate("modal");
         var jqDialog = $(t({"id": _.uniqueId("modal_"), "title": title}));
         jqDialog.on("hidden.bs.modal", function (e) {
@@ -108,10 +117,9 @@ var BootstrapUtils = (function () {
         var insert = function (data) {};
         jqDialog.find(".insert").on("click", function () {
             var ret = {};
-            _.each(jqDialog.find(".modal-body form").children(), function (element) {
-                var item = $(element).find(".form-control");
-                var id = idMapper[item.attr("id")];
-                ret[id] = item.val();
+            _.each(getWidgets(), function (element) {
+                var id = idMapper[element.attr("id")];
+                ret[id] = element.val();
             });
             insert(ret);
         });
@@ -121,17 +129,15 @@ var BootstrapUtils = (function () {
         var setDisable = function (value) {
             // Abilita o disabilita tutti i widget più il pulsante insert
 
-            _.each(jqDialog.find(".modal-body form").children(), function (element) {
-                var item = $(element).find(".form-control");
+            var widgets = getWidgets();
+            widgets.push(jqDialog.find(".insert"));
+
+            _.each(widgets, function (element) {
                 if (value)
-                    item.attr("disabled", "disabled");
+                    element.attr("disabled", "disabled");
                 else
-                    item.removeAttr("disabled");
+                    element.removeAttr("disabled");
             });
-            if (value)
-                jqDialog.find(".insert").attr("disabled", "disabled");
-            else
-                jqDialog.find(".insert").removeAttr("disabled");
         };
 
         return {
