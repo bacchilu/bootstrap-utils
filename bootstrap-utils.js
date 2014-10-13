@@ -118,6 +118,22 @@ var BootstrapUtils = (function () {
 
         $("body").prepend(jqDialog);
 
+        var setDisable = function (value) {
+            // Abilita o disabilita tutti i widget più il pulsante insert
+
+            _.each(jqDialog.find(".modal-body form").children(), function (element) {
+                var item = $(element).find(".form-control");
+                if (value)
+                    item.attr("disabled", "disabled");
+                else
+                    item.removeAttr("disabled");
+            });
+            if (value)
+                jqDialog.find(".insert").attr("disabled", "disabled");
+            else
+                jqDialog.find(".insert").removeAttr("disabled");
+        };
+
         return {
             addDate: function (options) {
                 addWidget("date", options);
@@ -149,6 +165,8 @@ var BootstrapUtils = (function () {
                     label.html("");
                     label.hide();
                 }, 10000);
+
+                setDisable(false);
             },
             create: function () {
                 jqDialog.modal("show");
@@ -158,6 +176,11 @@ var BootstrapUtils = (function () {
             },
             insert: function (fn) {
                 insert = fn;
+            },
+            waiting: function () {
+                // Disabilita form e pulsanti
+
+                setDisable(true);
             }
         };
     };
