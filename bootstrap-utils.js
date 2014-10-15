@@ -115,14 +115,14 @@ var BootstrapUtils = (function () {
             jqDialog.remove();
         });
 
-        var insert = function (data) {};
+        var saveFn = function (data) {};
         jqDialog.find(".insert").on("click", function () {
             var ret = {};
             _.each(getWidgets(), function (element) {
                 var id = idMapper[element.attr("id")];
                 ret[id] = element.val();
             });
-            insert(ret);
+            saveFn(ret);
         });
 
         jqDialog.find(".edit").on("click", function () {
@@ -133,6 +133,11 @@ var BootstrapUtils = (function () {
             setDisable(false);
         });
 
+        var removeFn = function () {};
+        jqDialog.find(".remove").on("click", function () {
+            removeFn();
+        });
+
         $("body").prepend(jqDialog);
 
         var setDisable = function (value) {
@@ -140,6 +145,8 @@ var BootstrapUtils = (function () {
 
             var widgets = getWidgets();
             widgets.push(jqDialog.find(".insert"));
+            widgets.push(jqDialog.find(".edit"));
+            widgets.push(jqDialog.find(".remove"));
 
             _.each(widgets, function (element) {
                 if (value)
@@ -189,14 +196,18 @@ var BootstrapUtils = (function () {
             view: function () {
                 setDisable(true);
                 jqDialog.find(".insert").hide();
+                jqDialog.find(".edit").removeAttr("disabled");
                 jqDialog.find(".edit").show();
                 jqDialog.modal("show");
             },
             hide: function () {
                 jqDialog.modal("hide");
             },
-            insert: function (fn) {
-                insert = fn;
+            save: function (fn) {
+                saveFn = fn;
+            },
+            remove: function (fn) {
+                removeFn = fn;
             },
             waiting: function () {
                 // Disabilita form e pulsanti
