@@ -114,6 +114,7 @@ var BootstrapUtils = (function () {
         jqDialog.on("hidden.bs.modal", function (e) {
             jqDialog.remove();
         });
+
         var insert = function (data) {};
         jqDialog.find(".insert").on("click", function () {
             var ret = {};
@@ -122,6 +123,14 @@ var BootstrapUtils = (function () {
                 ret[id] = element.val();
             });
             insert(ret);
+        });
+
+        jqDialog.find(".edit").on("click", function () {
+            jqDialog.find(".edit").hide();
+            jqDialog.find(".insert").show();
+            jqDialog.find(".insert").html("Aggiorna");
+            jqDialog.find(".remove").show();
+            setDisable(false);
         });
 
         $("body").prepend(jqDialog);
@@ -175,6 +184,12 @@ var BootstrapUtils = (function () {
                 setDisable(false);
             },
             create: function () {
+                jqDialog.modal("show");
+            },
+            view: function () {
+                setDisable(true);
+                jqDialog.find(".insert").hide();
+                jqDialog.find(".edit").show();
                 jqDialog.modal("show");
             },
             hide: function () {
