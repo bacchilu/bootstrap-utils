@@ -190,6 +190,20 @@ var BootstrapUtils = (function () {
 
                 setDisable(false);
             },
+            dialogError: function (msg) {
+                var label = jqDialog.find(".modal-footer").find("label");
+                label.html(msg);
+                label.show();
+
+                var t;
+                clearTimeout(t);
+                t = setTimeout(function () {
+                    label.html("");
+                    label.hide();
+                }, 10000);
+
+                setDisable(false);
+            },
             create: function () {
                 jqDialog.modal("show");
             },
