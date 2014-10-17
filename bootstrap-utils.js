@@ -207,7 +207,12 @@ var BootstrapUtils = (function () {
             create: function () {
                 jqDialog.modal("show");
             },
-            view: function () {
+            view: function (data) {
+                _.each(getWidgets(), function (element) {
+                    var id = idMapper[element.attr("id")];
+                    element.val(data[id]);
+                });
+
                 setDisable(true);
                 jqDialog.find(".insert").hide();
                 jqDialog.find(".edit").removeAttr("disabled");
