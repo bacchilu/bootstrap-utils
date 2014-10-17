@@ -76,7 +76,7 @@ var BootstrapUtils = (function () {
         };
     };
 
-    var createDialog = function (title) {
+    var createDialog = function () {
 
         var append = function (jqItem) {
             jqDialog.find(".modal-body form").append(jqItem);
@@ -110,7 +110,7 @@ var BootstrapUtils = (function () {
         };
 
         var t = getTemplate("modal");
-        var jqDialog = $(t({"id": _.uniqueId("modal_"), "title": title}));
+        var jqDialog = $(t({"id": _.uniqueId("modal_")}));
         jqDialog.on("hidden.bs.modal", function (e) {
             jqDialog.remove();
         });
@@ -204,10 +204,16 @@ var BootstrapUtils = (function () {
 
                 setDisable(false);
             },
-            create: function () {
+            create: function (title, fn) {
+                jqDialog.find(".modal-title").html(title);
+                saveFn = fn;
                 jqDialog.modal("show");
             },
-            view: function (data) {
+            view: function (title, data, fn, fn2) {
+                jqDialog.find(".modal-title").html(title);
+                saveFn = fn;
+                removeFn = fn2;
+
                 _.each(getWidgets(), function (element) {
                     var id = idMapper[element.attr("id")];
                     element.val(data[id]);
@@ -221,12 +227,6 @@ var BootstrapUtils = (function () {
             },
             hide: function () {
                 jqDialog.modal("hide");
-            },
-            save: function (fn) {
-                saveFn = fn;
-            },
-            remove: function (fn) {
-                removeFn = fn;
             },
             waiting: function () {
                 // Disabilita form e pulsanti
