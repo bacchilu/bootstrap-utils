@@ -116,27 +116,27 @@ var BootstrapUtils = (function () {
         });
 
         var saveFn = function (data) {};
-        jqDialog.find(".insert").on("click", function () {
-            var ret = {};
-            _.each(getWidgets(), function (element) {
-                var id = idMapper[element.attr("id")];
-                ret[id] = element.val();
-            });
-            saveFn(ret);
-        });
-
-        jqDialog.find(".edit").on("click", function () {
-            jqDialog.find(".edit").hide();
-            jqDialog.find(".insert").show();
-            jqDialog.find(".insert").html("Aggiorna");
-            jqDialog.find(".remove").show();
-            setDisable(false);
-        });
-
         var removeFn = function () {};
-        jqDialog.find(".remove").on("click", function () {
-            removeFn();
-        });
+        var bindEvents = function () {
+            jqDialog.find(".insert").on("click", function () {
+                var ret = {};
+                _.each(getWidgets(), function (element) {
+                    var id = idMapper[element.attr("id")];
+                    ret[id] = element.val();
+                });
+                saveFn(ret);
+            });
+            jqDialog.find(".edit").on("click", function () {
+                jqDialog.find(".edit").hide();
+                jqDialog.find(".insert").show();
+                jqDialog.find(".insert").html("Aggiorna");
+                jqDialog.find(".remove").show();
+                setDisable(false);
+            });
+            jqDialog.find(".remove").on("click", function () {
+                removeFn();
+            });
+        };
 
         $("body").prepend(jqDialog);
 
@@ -204,10 +204,18 @@ var BootstrapUtils = (function () {
 
                 setDisable(false);
             },
-            create: function (title, fn) {
+            create: function (title, data, fn) {
                 jqDialog.find(".modal-title").html(title);
                 saveFn = fn;
+
+                _.each(getWidgets(), function (element) {
+                    var id = idMapper[element.attr("id")];
+                    element.val(data[id]);
+                });
+
                 jqDialog.modal("show");
+
+                bindEvents();
             },
             view: function (title, data, fn, fn2) {
                 jqDialog.find(".modal-title").html(title);
@@ -221,9 +229,12 @@ var BootstrapUtils = (function () {
 
                 setDisable(true);
                 jqDialog.find(".insert").hide();
+                jqDialog.find(".remove").hide();
                 jqDialog.find(".edit").removeAttr("disabled");
                 jqDialog.find(".edit").show();
                 jqDialog.modal("show");
+
+                bindEvents();
             },
             hide: function () {
                 jqDialog.modal("hide");
