@@ -111,11 +111,9 @@ var BootstrapUtils = (function () {
 
         var t = getTemplate("modal");
         var jqDialog = $(t({"id": _.uniqueId("modal_")}));
-        jqDialog.on("hidden.bs.modal", function (e) {
-            jqDialog.remove();
-        });
 
-        var saveFn = function (data) {};
+        var createFn = function (data) {};
+        var updateFn = function (data) {};
         var removeFn = function () {};
         var bindEvents = function () {
             jqDialog.find(".insert").on("click", function () {
@@ -124,21 +122,26 @@ var BootstrapUtils = (function () {
                     var id = idMapper[element.attr("id")];
                     ret[id] = element.val();
                 });
-                saveFn(ret);
+                createFn(ret);
             });
             jqDialog.find(".edit").on("click", function () {
                 jqDialog.find(".edit").hide();
-                jqDialog.find(".insert").show();
-                jqDialog.find(".insert").html("Aggiorna");
+                jqDialog.find(".update").show();
                 jqDialog.find(".remove").show();
                 setDisable(false);
+            });
+            jqDialog.find(".update").on("click", function () {
+                var ret = {};
+                _.each(getWidgets(), function (element) {
+                    var id = idMapper[element.attr("id")];
+                    ret[id] = element.val();
+                });
+                updateFn(ret);
             });
             jqDialog.find(".remove").on("click", function () {
                 removeFn();
             });
         };
-
-        $("body").prepend(jqDialog);
 
         var setDisable = function (value) {
             // Abilita o disabilita tutti i widget più il pulsante insert
@@ -146,6 +149,7 @@ var BootstrapUtils = (function () {
             var widgets = getWidgets();
             widgets.push(jqDialog.find(".insert"));
             widgets.push(jqDialog.find(".edit"));
+            widgets.push(jqDialog.find(".update"));
             widgets.push(jqDialog.find(".remove"));
 
             _.each(widgets, function (element) {
@@ -155,6 +159,10 @@ var BootstrapUtils = (function () {
                     element.removeAttr("disabled");
             });
         };
+
+        jqDialog.on("hidden.bs.modal", function (e) {
+            jqDialog.remove();
+        });
 
         return {
             addDate: function (options) {
@@ -204,37 +212,32 @@ var BootstrapUtils = (function () {
 
                 setDisable(false);
             },
-            create: function (title, data, fn) {
+            create: function (title, fn) {
                 jqDialog.find(".modal-title").html(title);
-                saveFn = fn;
+                createFn = fn;
 
-                _.each(getWidgets(), function (element) {
-                    var id = idMapper[element.attr("id")];
-                    element.val(data[id]);
-                });
+                jqDialog.find(".insert").show();
 
                 jqDialog.modal("show");
-
                 bindEvents();
             },
-            view: function (title, data, fn, fn2) {
+            view: function (title, fn, fn2) {
                 jqDialog.find(".modal-title").html(title);
-                saveFn = fn;
+                updateFn = fn;
                 removeFn = fn2;
 
+                setDisable(true);
+                jqDialog.find(".edit").removeAttr("disabled");
+                jqDialog.find(".edit").show();
+
+                jqDialog.modal("show");
+                bindEvents();
+            },
+            setValues: function (data) {
                 _.each(getWidgets(), function (element) {
                     var id = idMapper[element.attr("id")];
                     element.val(data[id]);
                 });
-
-                setDisable(true);
-                jqDialog.find(".insert").hide();
-                jqDialog.find(".remove").hide();
-                jqDialog.find(".edit").removeAttr("disabled");
-                jqDialog.find(".edit").show();
-                jqDialog.modal("show");
-
-                bindEvents();
             },
             hide: function () {
                 jqDialog.modal("hide");
